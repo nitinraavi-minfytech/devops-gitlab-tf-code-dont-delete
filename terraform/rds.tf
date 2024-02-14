@@ -1,0 +1,20 @@
+module "db" {
+  source                 = "terraform-aws-modules/rds/aws"
+  create_db_instance     = var.create_postgres_db
+  identifier             = "${var.prefix}-postgres-rds-${var.suffix}"
+  engine                 = "postgres"
+  engine_version         = "14"
+  family                 = "postgres14"
+  major_engine_version   = "14"
+  instance_class         = var.db_instance_type
+  allocated_storage      = var.db_storage_size
+  max_allocated_storage  = var.max_db_storage_size
+  username               = var.db_master_username
+  port                   = var.db_port
+  password               = data.aws_ssm_parameter.db_password.value
+  multi_az               = false
+  publicly_accessible    = false
+  deletion_protection    = true
+  db_subnet_group_name   = module.vpc.database_subnet_group
+  vpc_security_group_ids = [module.db_security_group.security_group_id]
+}
