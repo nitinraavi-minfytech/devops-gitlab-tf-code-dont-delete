@@ -16,7 +16,7 @@ module "ec2_instance" {
     {
       encrypted   = true
       volume_type = "gp3"
-      throughput  = 100
+      throughput  = 125
       iops        = 3000
       volume_size = var.ebs_volume_size
       volume_tags = {
